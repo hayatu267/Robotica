@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robotica</title>
+    <link rel="stylesheet" href="project.css">
+</head>
+<body>
+    <section>
+        <form id="login-form"> <!-- Add form ID -->
+            <h1>Log In</h1>
+            <div class="inputbox">
+                <ion-icon name="lock-closed-outline"></ion-icon>
+                Email: <input type="email" id="email" required placeholder="email"> <br> <!-- Add input ID -->
+                Password: <input type="password" id="password" required placeholder="password"> <!-- Add input ID -->
+            </div>
+            <div class="forget">
+                <label for="rememberMe">
+                    <input type="checkbox" id="rememberMe"> Remember me</label> <!-- Add checkbox ID -->
+                <a href="#">Forget password</a>
+            </div>
+            <button type="submit">Log In</button> <!-- Remove a href, use JS for redirection -->
+            <div class="register">
+                <p>I don't have an account <a href="register.html">Register</a></p>
+            </div>
+        </form>
+    </section>
+</body>
+<script defer src="js/script.js"></script>
+<script>
+    document.getElementById('login-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form from submitting the default way
+
+        // Get input values
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const rememberMe = document.getElementById('rememberMe').checked;
+        
+        // Basic validation
+        if (validateEmail(email) && password.length >= 6) {
+           // alert('Login Successful!');
+            // Optionally, save email to local storage if "Remember Me" is checked
+            if (rememberMe) {
+                localStorage.setItem('email', email);
+            }
+            // Redirect to dashboard (placeholder)
+            window.location.href = 'home.html';
+        } else {
+            // Show error message
+            const errorMessage = document.getElementById('error-message');
+            errorMessage.style.display = 'block';
+        }
+    });
+
+    // Simple email validation function
+    function validateEmail(email) {
+        const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+        return re.test(String(email).toLowerCase());
+    }
+
+    // On page load, check if email is saved in localStorage
+    window.onload = function() {
+        const savedEmail = localStorage.getItem('email');
+        if (savedEmail) {
+            document.getElementById('email').value = savedEmail;
+        }
+    }
+</script>
+</html>
